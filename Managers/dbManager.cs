@@ -59,7 +59,7 @@ namespace KeyVault.Managers
                 //Assign unique ID
                 key.ID = currentCount.count + 1;
 
-                response = await client.SetAsync("Keys", key);
+                response = await client.SetAsync("Keys/"+key.ID, key);
 
                 //Create an object to update the counter.
                 var countObj = new Counter
@@ -78,8 +78,59 @@ namespace KeyVault.Managers
             }
         }
 
+        public async void remove(int id)
+        {
+            var count = 0;
+            try
+            {
+                if(id != 0)
+                {
+                    FirebaseResponse response = await client.GetAsync("Counter/node");
+                    Counter currentCount = response.ResultAs<Counter>();
+                    count = currentCount.count;
 
-       
+                    count -= 1;
+                    response = await client.SetAsync("Counter/node/count", count);
 
+                    response = await client.DeleteAsync("Keys/" + id);
+                }
+            }
+            catch(Exception ex)
+            {
+                library.errorHandler(ex);
+            }
+        }
+
+        public async Task<List<ProductKey>> getAll()
+        {
+            int count = 0;
+            List<ProductKey> keys = null;
+            var i = 0;
+            try
+            {
+                keys = new List<ProductKey>();
+                FirebaseResponse countResponse = await client.GetAsync("Counter/node");
+                Counter currentCount = countResponse.ResultAs<Counter>();
+                count = currentCount.count;
+
+                while(true)
+                {
+                    if(i == count)
+                    {
+                        break;
+                    }
+
+                    i++;
+                    FirebaseResponse keyResponse = await client.GetAsync("Keys/" + i);
+                    ProductKey key = keyResponse.ResultAs<ProductKey>();
+                    keys.Add(key);
+                }
+            }
+            catch(Exception ex)
+            {
+                library.errorHandler(ex);
+            }
+            return keys;
+        }
     }
 }

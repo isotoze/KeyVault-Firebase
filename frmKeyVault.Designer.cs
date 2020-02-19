@@ -39,16 +39,16 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.tpOptions = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnRemoveKey = new System.Windows.Forms.Button();
+            this.dgData = new System.Windows.Forms.DataGridView();
+            this.keyId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.productKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.notes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tpKeys.SuspendLayout();
             this.tpOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -158,33 +158,37 @@
             this.button1.Text = "Export Vault";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnRemoveKey
             // 
-            this.button2.Location = new System.Drawing.Point(355, 400);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(345, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Remove Key";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnRemoveKey.Location = new System.Drawing.Point(575, 400);
+            this.btnRemoveKey.Name = "btnRemoveKey";
+            this.btnRemoveKey.Size = new System.Drawing.Size(222, 23);
+            this.btnRemoveKey.TabIndex = 2;
+            this.btnRemoveKey.Text = "Remove Key";
+            this.btnRemoveKey.UseVisualStyleBackColor = true;
+            this.btnRemoveKey.Click += new System.EventHandler(this.btnRemoveKey_Click);
             // 
-            // dataGridView1
+            // dgData
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ID,
+            this.dgData.AllowUserToAddRows = false;
+            this.dgData.AllowUserToDeleteRows = false;
+            this.dgData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.keyId,
             this.name,
             this.productKey,
             this.notes});
-            this.dataGridView1.Location = new System.Drawing.Point(355, 34);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(345, 360);
-            this.dataGridView1.TabIndex = 3;
+            this.dgData.Location = new System.Drawing.Point(355, 34);
+            this.dgData.Name = "dgData";
+            this.dgData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgData.Size = new System.Drawing.Size(442, 360);
+            this.dgData.TabIndex = 3;
             // 
-            // ID
+            // keyId
             // 
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
+            this.keyId.HeaderText = "ID";
+            this.keyId.Name = "keyId";
+            this.keyId.ReadOnly = true;
             // 
             // name
             // 
@@ -208,9 +212,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(712, 436);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.button2);
+            this.ClientSize = new System.Drawing.Size(809, 436);
+            this.Controls.Add(this.dgData);
+            this.Controls.Add(this.btnRemoveKey);
             this.Controls.Add(this.tabControl1);
             this.Name = "frmKeyVault";
             this.Text = "KeyVault";
@@ -219,7 +223,7 @@
             this.tpKeys.ResumeLayout(false);
             this.tpKeys.PerformLayout();
             this.tpOptions.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgData)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -236,9 +240,9 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.TabPage tpOptions;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.Button btnRemoveKey;
+        private System.Windows.Forms.DataGridView dgData;
+        private System.Windows.Forms.DataGridViewTextBoxColumn keyId;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn productKey;
         private System.Windows.Forms.DataGridViewTextBoxColumn notes;

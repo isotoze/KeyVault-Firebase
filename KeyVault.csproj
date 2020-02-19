@@ -84,6 +84,12 @@
     <Compile Include="frmKeyVault.Designer.cs">
       <DependentUpon>frmKeyVault.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPassword.Designer.cs">
+      <DependentUpon>frmPassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="Library.cs" />
     <Compile Include="Managers\DbManager.cs" />
     <Compile Include="Objects\Counter.cs" />
@@ -92,6 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmKeyVault.resx">
       <DependentUpon>frmKeyVault.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPassword.resx">
+      <DependentUpon>frmPassword.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

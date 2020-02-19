@@ -21,26 +21,54 @@ namespace KeyVault
 
         public string CreateSalt()
         {
-            //Generate a cryptographic random number.
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            byte[] buff = new byte[1000];
-            rng.GetBytes(buff);
-            return Convert.ToBase64String(buff);
+            try
+            {
+                //Generate a cryptographic random number for salt
+                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                byte[] buff = new byte[1000];
+                rng.GetBytes(buff);
+                return Convert.ToBase64String(buff);
+
+            }
+            catch(Exception ex)
+            {
+                errorHandler(ex);
+                return "";
+            }
+           
         }
 
 
         public string GenerateHash(string input, string salt)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(input + salt);
-            SHA256Managed sHA256ManagedString = new SHA256Managed();
-            byte[] hash = sHA256ManagedString.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
+            try
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(input + salt);
+                SHA256Managed sHA256ManagedString = new SHA256Managed();
+                byte[] hash = sHA256ManagedString.ComputeHash(bytes);
+                return Convert.ToBase64String(hash);
+            }
+            catch (Exception ex)
+            {
+                errorHandler(ex);
+                return "";
+            }
+            
         }
 
         public bool verifyPassword(string plainTextInput, string hashedInput, string salt)
         {
-            string newHashedPin = GenerateHash(plainTextInput, salt);
-            return newHashedPin.Equals(hashedInput);
+            try
+            {
+                string newHashedPin = GenerateHash(plainTextInput, salt);
+                return newHashedPin.Equals(hashedInput);
+            }
+            catch (Exception ex)
+            {
+                errorHandler(ex);
+                return false;
+            }
+         
         }
 
     }

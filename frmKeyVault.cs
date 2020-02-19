@@ -29,16 +29,6 @@ namespace KeyVault
         {
             try
             {
-                if (checkInitialRun())
-                {
-                    //Create master passsword.
-                    createMasterPassword();
-                }
-                else
-                {
-                    requestMasterPassword();
-                }
-
                 if (database.connect())
                 {
                     MessageBox.Show("connected");
@@ -48,144 +38,6 @@ namespace KeyVault
                 {
                     MessageBox.Show("unable to connect to firebase.");
                 }
-            }
-            catch(Exception ex)
-            {
-                library.errorHandler(ex);
-            }
-        }
-
-        private Boolean checkInitialRun()
-        {
-            Boolean initialRun = false;
-
-            try
-            {
-                initialRun = Properties.Settings.Default.initialRun;
-
-                if(initialRun)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch(Exception ex)
-            {
-                library.errorHandler(ex);
-                return false;
-            }
-        }
-
-        public void createMasterPassword()
-        {
-            try
-            {
-                Boolean valid = false;
-                String password = "";
-                String confirmPassword = "";
-
-                do
-                {
-                    password = Interaction.InputBox("Please enter a master password.");
-
-                    if (password != "")
-                    {
-                        confirmPassword = Interaction.InputBox("Please confirm your password");
-
-                        if(password == confirmPassword)
-                        {
-
-                            setMasterPassword(confirmPassword);
-                            disableInitialRun();
-                            valid = true;
-                            MessageBox.Show("Master password set.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Passwords do not match.");
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please enter a valid password.");
-                    }
-
-                } while (valid == false);
-            }
-            catch(Exception ex)
-            {
-                library.errorHandler(ex);
-            }
-        }
-
-        public void setMasterPassword(string password)
-        {
-            string salt = "";
-            string hashedPass = "";
-            try
-            {
-                if(password != "")
-                {
-                    salt = library.CreateSalt();
-                    hashedPass = library.GenerateHash(password, salt);
-
-                    Properties.Settings.Default.masterPass = hashedPass;
-                    Properties.Settings.Default.salt = salt;
-                    Properties.Settings.Default.Save();
-                }
-            }
-            catch(Exception ex)
-            {
-                library.errorHandler(ex);
-            }
-        }
-
-        public void requestMasterPassword()
-        {
-            var passwordInput = "";
-            var storedHash = "";
-            var salt = "";
-            var passwordValid = false;
-
-            try
-            {
-                storedHash = Properties.Settings.Default.masterPass;
-                salt = Properties.Settings.Default.salt;
-
-                if(storedHash != "")
-                {
-                    do
-                    {
-                        passwordInput = Interaction.InputBox("Enter master password.");
-                        
-                        if(library.verifyPassword(passwordInput, storedHash, salt))
-                        {
-                            passwordValid = true;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Incorrect password");
-                        }
-
-                    } while (passwordValid == false);
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                library.errorHandler(ex);
-            }
-        }
-
-        public void disableInitialRun()
-        {
-            try
-            {
-                Properties.Settings.Default.initialRun = false;
-                Properties.Settings.Default.Save();
             }
             catch(Exception ex)
             {
@@ -203,17 +55,50 @@ namespace KeyVault
             };
 
             database.insert(key);
+            getAllEntries();
         }
 
         private async void getAllEntries()
         {
             try
             {
-                //TODO implement
+                List<ProductKey> keys = await database.getAll();
+                dgData.Rows.Clear();
+
+                if(keys != null)
+                {
+                    for (var i = 0; i < keys.Count; i++)
+                    {
+                        dgData.Rows.Add(
+                            keys[i].ID,
+                            keys[i].name,
+                            keys[i].productKey,
+                            keys[i].notes
+                            );
+                    }
+                    
+                }
             }
             catch(Exception ex)
             {
                 library.errorHandler(ex);
+            }
+        }
+
+        private void btnRemoveKey_Click(object sender, EventArgs e)
+        {
+            if (dgData.SelectedCells.Count > 0)
+            {
+                int selectedrowindex = dgData.SelectedCells[0].RowIndex;
+                DataGridViewRow selectedRow = dgData.Rows[selectedrowindex];
+                int indexToRemove = Convert.ToInt32(selectedRow.Cells["keyId"].Value);
+                
+                if(indexToRemove > 0)
+                {
+                    database.remove(indexToRemove);
+                }
+
+                getAllEntries();
             }
         }
     }

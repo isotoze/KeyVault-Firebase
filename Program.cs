@@ -16,8 +16,7 @@ namespace KeyVault
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //            Properties.Settings.Default.Reset();
-            Application.Run(new frmKeyVault());
+            Application.Run(new frmPassword());
         }
     }
 }
